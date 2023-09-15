@@ -13,13 +13,13 @@ type WordFrequency struct {
 	data   []Word
 }
 
-func (obj WordFrequency) print() {
+func (obj *WordFrequency) print() {
 	for _, word := range obj.data {
 		fmt.Println(word.text, word.count)
 	}
 }
 
-func (obj WordFrequency) prettyPrint() {
+func (obj *WordFrequency) prettyPrint() {
 	table := tablewriter.NewWriter(os.Stdout)
 
 	table.SetHeader([]string{"Word", "Count"})
@@ -32,7 +32,7 @@ func (obj WordFrequency) prettyPrint() {
 	table.Render()
 }
 
-func (obj WordFrequency) render() {
+func (obj *WordFrequency) render() {
 	if obj.pretty {
 		obj.prettyPrint()
 	} else {
