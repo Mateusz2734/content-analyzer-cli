@@ -1,35 +1,31 @@
 package main
 
 import (
-	"io"
 	"log"
 	"os"
 
 	"github.com/urfave/cli/v2"
 )
 
+var opts = &Options{}
+
 func main() {
+
 	app := &cli.App{
-		HelpName: "content-analyzer",
-		Usage:    "Analyze word frequency and letter count of a file piped from stdin",
-		Action: func(cCtx *cli.Context) error {
-			letterCounter := &LetterCount{pretty: true}
-			wordFreq := &WordFrequency{pretty: true}
+		Name:      "analyzer",
+		HelpName:  "analyzer",
+		Usage:     "Analyze word frequency and letter count of a file piped from stdin",
+		UsageText: "analyzer [global options]",
 
-			stdin, err := io.ReadAll(os.Stdin)
-
-			if err != nil {
-				panic("Error: cannot get stdin")
-			}
-
-			letterCounter.data, wordFreq.data = Analyze(stdin)
-
-			letterCounter.calcSum()
-			letterCounter.render()
-
-			wordFreq.render()
-			return nil
+		Flags: []cli.Flag{
+			nFlag,
+			prettyFlag,
+			inFileFlag,
+			outFileFlag,
+			percentageFlag,
 		},
+
+		Action: mainAction,
 	}
 
 	if err := app.Run(os.Args); err != nil {
