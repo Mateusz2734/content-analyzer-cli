@@ -61,5 +61,9 @@ func Analyze(input []byte) ([]int, []Word) {
 
 	slices.SortFunc(wordsArr, cmpWords)
 
+	if opts.topKWords != 0 {
+		wordsArr = wordsArr[:opts.topKWords]
+	}
+
 	return letterCnt, wordsArr
 }

@@ -9,13 +9,13 @@ import (
 )
 
 type WordFrequency struct {
-	pretty bool
-	data   []Word
+	data []Word
 }
 
 func (obj *WordFrequency) print() {
+	fmt.Println("word,count")
 	for _, word := range obj.data {
-		fmt.Println(word.text, word.count)
+		fmt.Printf("%s,%d\n", word.text, word.count)
 	}
 }
 
@@ -33,7 +33,7 @@ func (obj *WordFrequency) prettyPrint() {
 }
 
 func (obj *WordFrequency) render() {
-	if obj.pretty {
+	if opts.prettyPrint {
 		obj.prettyPrint()
 	} else {
 		obj.print()

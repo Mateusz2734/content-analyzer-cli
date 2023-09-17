@@ -8,9 +8,8 @@ import (
 )
 
 type LetterCount struct {
-	pretty bool
-	data   []int
-	sum    int
+	data []int
+	sum  int
 }
 
 func (obj *LetterCount) calcSum() {
@@ -21,31 +20,62 @@ func (obj *LetterCount) calcSum() {
 }
 
 func (obj *LetterCount) print() {
-	for i, count := range obj.data {
-		fmt.Printf("%c %d\n", i+97, count)
+	if opts.letterPercentage {
+		fmt.Println("letter,count,percentage")
+	} else {
+		fmt.Println("letter,count")
 	}
+
+	for i, count := range obj.data {
+		if opts.letterPercentage {
+			fmt.Printf("%c,%d,%.2f%%\n", i+97, count, (float32(count)/float32(obj.sum))*100)
+		} else {
+			fmt.Printf("%c,%d\n", i+97, count)
+		}
+	}
+	fmt.Println("")
 }
 
 func (obj *LetterCount) prettyPrint() {
-	tableData := [2][]string{}
+	var tableData [][]string
 
-	for i, count := range obj.data {
-		tableData[0] = append(tableData[0], fmt.Sprintf("%c", i+97))
-		tableData[1] = append(tableData[1], fmt.Sprint(count))
+	if opts.letterPercentage {
+		for i := 0; i < 3; i++ {
+			tableData = append(tableData, []string{})
+		}
+
+		for i, count := range obj.data {
+			tableData[0] = append(tableData[0], fmt.Sprintf("%c", i+97))
+			tableData[1] = append(tableData[1], fmt.Sprint(count))
+			tableData[2] = append(tableData[2], fmt.Sprintf("%.2f%%", (float32(count)/float32(obj.sum))*100))
+		}
+
+	} else {
+		for i := 0; i < 2; i++ {
+			tableData = append(tableData, []string{})
+		}
+
+		for i, count := range obj.data {
+			tableData[0] = append(tableData[0], fmt.Sprintf("%c", i+97))
+			tableData[1] = append(tableData[1], fmt.Sprint(count))
+		}
+
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetRowLine(true)
+	table.SetAlignment(tablewriter.ALIGN_CENTER)
 
 	for _, row := range tableData {
 		table.Append(row)
 	}
 
 	table.Render()
+	fmt.Println("")
 }
 
 func (obj *LetterCount) render() {
-	if obj.pretty {
+	if opts.prettyPrint {
 		obj.prettyPrint()
 	} else {
 		obj.print()

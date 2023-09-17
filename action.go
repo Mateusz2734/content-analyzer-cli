@@ -9,8 +9,8 @@ import (
 )
 
 func mainAction(cCtx *cli.Context) error {
-	letterCounter := &LetterCount{pretty: true}
-	wordFreq := &WordFrequency{pretty: true}
+	letterCounter := &LetterCount{}
+	wordFreq := &WordFrequency{}
 
 	if termutil.Isatty(os.Stdin.Fd()) {
 		return cli.Exit("Usage: analyzer [global options]\nTry 'analyzer -h' for more information.", 0)
@@ -19,7 +19,7 @@ func mainAction(cCtx *cli.Context) error {
 	stdin, err := io.ReadAll(os.Stdin)
 
 	if err != nil {
-		panic("Error: cannot read from stdin")
+		return cli.Exit("Cannot read from stdin", 1)
 	}
 
 	letterCounter.data, wordFreq.data = Analyze(stdin)
