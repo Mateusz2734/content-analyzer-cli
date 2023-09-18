@@ -20,7 +20,7 @@ func mainAction(cCtx *cli.Context) error {
 
 	data := input()
 
-	letterCounter.data, wordFreq.data = Analyze(data)
+	letterCounter.data, wordFreq.data = analyze(data)
 
 	letterCounter.render(sb)
 	wordFreq.render(sb)

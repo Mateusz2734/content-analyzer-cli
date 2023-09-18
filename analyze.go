@@ -26,7 +26,7 @@ func cmpWords(a Word, b Word) int {
 
 // Analyze takes in an input byte array, counts the occurrences of each letter in the
 // input, and returns the letter count as well as a sorted list of words and their frequencies.
-func Analyze(input []byte) ([]int, []Word) {
+func analyze(input []byte) ([]int, []Word) {
 	letterCnt := make([]int, 26)
 	wordIds := make(map[string]int)
 
@@ -56,12 +56,11 @@ func Analyze(input []byte) ([]int, []Word) {
 				letterCnt[letter-97]++
 			}
 		}
-
 	}
 
 	slices.SortFunc(wordsArr, cmpWords)
 
-	if opts.topKWords != 0 {
+	if opts.topKWords != 0 && int(opts.topKWords) <= len(wordsArr) {
 		wordsArr = wordsArr[:opts.topKWords]
 	}
 
