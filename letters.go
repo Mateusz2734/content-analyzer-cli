@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"strings"
 
 	"github.com/olekukonko/tablewriter"
 )
@@ -19,24 +19,26 @@ func (obj *LetterCount) calcSum() {
 	}
 }
 
-func (obj *LetterCount) print() {
+func (obj *LetterCount) print(builder *strings.Builder) {
 	if opts.letterPercentage {
-		fmt.Println("letter,count,percentage")
+		obj.calcSum()
+
+		builder.WriteString("letter,count,percentage\n")
 	} else {
-		fmt.Println("letter,count")
+		builder.WriteString("letter,count\n")
 	}
 
 	for i, count := range obj.data {
 		if opts.letterPercentage {
-			fmt.Printf("%c,%d,%.2f%%\n", i+97, count, (float32(count)/float32(obj.sum))*100)
+			builder.WriteString(fmt.Sprintf("%c,%d,%.2f%%\n", i+97, count, (float32(count)/float32(obj.sum))*100))
 		} else {
-			fmt.Printf("%c,%d\n", i+97, count)
+			builder.WriteString(fmt.Sprintf("%c,%d\n", i+97, count))
 		}
 	}
-	fmt.Println("")
+	builder.WriteString("\n")
 }
 
-func (obj *LetterCount) prettyPrint() {
+func (obj *LetterCount) prettyPrint(builder *strings.Builder) {
 	var tableData [][]string
 
 	if opts.letterPercentage {
@@ -62,7 +64,7 @@ func (obj *LetterCount) prettyPrint() {
 
 	}
 
-	table := tablewriter.NewWriter(os.Stdout)
+	table := tablewriter.NewWriter(builder)
 	table.SetRowLine(true)
 	table.SetAlignment(tablewriter.ALIGN_CENTER)
 
@@ -71,13 +73,13 @@ func (obj *LetterCount) prettyPrint() {
 	}
 
 	table.Render()
-	fmt.Println("")
+	builder.WriteString("\n")
 }
 
-func (obj *LetterCount) render() {
+func (obj *LetterCount) render(builder *strings.Builder) {
 	if opts.prettyPrint {
-		obj.prettyPrint()
+		obj.prettyPrint(builder)
 	} else {
-		obj.print()
+		obj.print(builder)
 	}
 }

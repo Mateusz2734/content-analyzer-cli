@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"strconv"
+	"strings"
 
 	"github.com/olekukonko/tablewriter"
 )
@@ -12,15 +12,15 @@ type WordFrequency struct {
 	data []Word
 }
 
-func (obj *WordFrequency) print() {
-	fmt.Println("word,count")
+func (obj *WordFrequency) print(builder *strings.Builder) {
+	builder.WriteString("word,count\n")
 	for _, word := range obj.data {
-		fmt.Printf("%s,%d\n", word.text, word.count)
+		builder.WriteString(fmt.Sprintf("%s,%d\n", word.text, word.count))
 	}
 }
 
-func (obj *WordFrequency) prettyPrint() {
-	table := tablewriter.NewWriter(os.Stdout)
+func (obj *WordFrequency) prettyPrint(builder *strings.Builder) {
+	table := tablewriter.NewWriter(builder)
 
 	table.SetHeader([]string{"Word", "Count"})
 	table.SetAlignment(tablewriter.ALIGN_CENTER)
@@ -32,10 +32,10 @@ func (obj *WordFrequency) prettyPrint() {
 	table.Render()
 }
 
-func (obj *WordFrequency) render() {
+func (obj *WordFrequency) render(builder *strings.Builder) {
 	if opts.prettyPrint {
-		obj.prettyPrint()
+		obj.prettyPrint(builder)
 	} else {
-		obj.print()
+		obj.print(builder)
 	}
 }

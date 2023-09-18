@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"os"
 
@@ -8,7 +9,19 @@ import (
 )
 
 func output(content string) {
-	f, err := os.OpenFile(opts.outFile, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
+	if opts.outFile == "" {
+		stdin_output(content)
+	} else {
+		file_output(content)
+	}
+}
+
+func stdin_output(content string) {
+	fmt.Print(content)
+}
+
+func file_output(content string) {
+	f, err := os.OpenFile(opts.outFile, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0666)
 
 	if err != nil {
 		cli.Exit("Cannot open given file", 1)
@@ -26,6 +39,24 @@ func output(content string) {
 }
 
 func input() []byte {
+	if opts.inFile == "" {
+		return stdin_input()
+	} else {
+		return file_input()
+	}
+}
+
+func stdin_input() []byte {
+	stdin, err := io.ReadAll(os.Stdin)
+
+	if err != nil {
+		cli.Exit("Cannot read from stdin", 1)
+	}
+
+	return stdin
+}
+
+func file_input() []byte {
 	fileInfo, err := os.Stat(opts.inFile)
 
 	if err != nil {

@@ -1,32 +1,31 @@
 package main
 
 import (
-	"io"
 	"os"
+	"strings"
 
 	"github.com/andrew-d/go-termutil"
 	"github.com/urfave/cli/v2"
 )
 
 func mainAction(cCtx *cli.Context) error {
+	sb := &strings.Builder{}
+
 	letterCounter := &LetterCount{}
 	wordFreq := &WordFrequency{}
 
-	if termutil.Isatty(os.Stdin.Fd()) {
+	if termutil.Isatty(os.Stdin.Fd()) && opts.inFile == "" {
 		return cli.Exit("Usage: analyzer [global options]\nTry 'analyzer -h' for more information.", 0)
 	}
 
-	stdin, err := io.ReadAll(os.Stdin)
+	data := input()
 
-	if err != nil {
-		return cli.Exit("Cannot read from stdin", 1)
-	}
+	letterCounter.data, wordFreq.data = Analyze(data)
 
-	letterCounter.data, wordFreq.data = Analyze(stdin)
+	letterCounter.render(sb)
+	wordFreq.render(sb)
 
-	letterCounter.calcSum()
-	letterCounter.render()
+	output(sb.String())
 
-	wordFreq.render()
 	return nil
 }
