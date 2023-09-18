@@ -12,10 +12,10 @@ var opts = &Options{}
 func main() {
 
 	app := &cli.App{
-		Name:      "analyzer",
-		HelpName:  "analyzer",
-		Usage:     "Analyze word frequency and letter count of a file piped from stdin",
-		UsageText: "analyzer [global options]",
+		Name:      "ca",
+		HelpName:  "ca",
+		Usage:     "Analyze word frequency and letter count of a file",
+		UsageText: "ca [global options]",
 
 		Flags: []cli.Flag{
 			nFlag,

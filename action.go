@@ -15,7 +15,7 @@ func mainAction(cCtx *cli.Context) error {
 	wordFreq := &WordFrequency{}
 
 	if termutil.Isatty(os.Stdin.Fd()) && opts.inFile == "" {
-		return cli.Exit("Usage: analyzer [global options]\nTry 'analyzer -h' for more information.", 0)
+		return cli.Exit("Usage: ca [global options]\nTry 'ca -h' for more information.", 0)
 	}
 
 	data := input()
