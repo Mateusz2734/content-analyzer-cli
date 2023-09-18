@@ -4,7 +4,7 @@ import "github.com/urfave/cli/v2"
 
 var nFlag = &cli.Int64Flag{
 	Aliases:     []string{"n"},
-	Value:       0,
+	Value:       15,
 	Usage:       "Output only `n` most frequent words, 0 means all words",
 	Destination: &opts.topKWords,
 }
