@@ -1,4 +1,4 @@
-module analyzer
+module ca
 
 go 1.21.1
 
