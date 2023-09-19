@@ -16,6 +16,7 @@ func main() {
 		HelpName:  "ca",
 		Usage:     "Analyze word frequency and letter count of a file",
 		UsageText: "ca [global options]",
+		Version:   "1.0.0",
 
 		Flags: []cli.Flag{
 			nFlag,
