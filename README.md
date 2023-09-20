@@ -23,26 +23,11 @@ sudo cp ca /bin
 ```
 Feel free to replace `/bin` with any directory included in your `$PATH`. This step ensures that you can run the `ca` command from anywhere in your terminal.
 
-4. To verify that `ca` is working correctly, check the help page:
+4. To verify that `ca` is working correctly, check the version:
 ```bash
-ca -h
+ca -v
 ```
 If everything is set up properly, the output should resemble the following:
 ```bash
-NAME:
-   ca - Analyze word frequency and letter count of a file
-
-USAGE:
-   ca [global options]
-
-COMMANDS:
-   help, h  Shows a list of commands or help for one command
-
-GLOBAL OPTIONS:
-   -n n                     output only n most frequent words, 0 means all words (default: 15)
-   --pretty, -p             apply pretty print (default: false)
-   --file FILE, -f FILE     read from the given FILE
-   --out FILE, -o FILE      output to the given FILE
-   --letter-percentage, -l  enhance output with letter percentage statistics (default: false)
-   --help, -h               show help
+ca version 1.0.0
 ```
