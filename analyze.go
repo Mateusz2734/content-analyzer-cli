@@ -24,13 +24,29 @@ func cmpWords(a Word, b Word) int {
 	return 0
 }
 
-// Analyze takes in an input byte array, counts the occurrences of each letter in the
+// remove_chars takes in a byte slice and removes any characters that are not
+// alphanumeric or whitespace, returning the resulting string.
+func remove_chars(input []byte) string {
+	builder := &strings.Builder{}
+	builder.Grow(len(input))
+
+	for _, elem := range input {
+		if (33 <= elem && elem <= 47) || (58 <= elem && elem <= 64) || (91 <= elem && elem <= 96) || (123 <= elem && elem <= 126) {
+			continue
+		} else {
+			builder.WriteByte(elem)
+		}
+	}
+	return builder.String()
+}
+
+// analyze takes in an input byte array, counts the occurrences of each letter in the
 // input, and returns the letter count as well as a sorted list of words and their frequencies.
 func analyze(input []byte) ([]int, []Word) {
 	letterCnt := make([]int, 26)
 	wordIds := make(map[string]int)
 
-	str := strings.ToLower(string(input))
+	str := strings.ToLower(remove_chars(input))
 	words := strings.Split(strings.ReplaceAll(str, "\n", " "), " ")
 
 	wordsArr := make([]Word, 0, len(words))
