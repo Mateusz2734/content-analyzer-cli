@@ -10,17 +10,17 @@ import (
 
 func output(content string) {
 	if opts.outFile == "" {
-		stdin_output(content)
+		stdinOutput(content)
 	} else {
-		file_output(content)
+		fileOutput(content)
 	}
 }
 
-func stdin_output(content string) {
+func stdinOutput(content string) {
 	fmt.Print(content)
 }
 
-func file_output(content string) {
+func fileOutput(content string) {
 	f, err := os.OpenFile(opts.outFile, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0666)
 
 	if err != nil {
@@ -40,23 +40,23 @@ func file_output(content string) {
 
 func input() []byte {
 	if opts.inFile == "" {
-		return stdin_input()
+		return stdinInput()
 	} else {
-		return file_input()
+		return fileInput()
 	}
 }
 
-func stdin_input() []byte {
-	stdin, err := io.ReadAll(os.Stdin)
+func stdinInput() []byte {
+	content, err := io.ReadAll(os.Stdin)
 
 	if err != nil {
 		cli.Exit("Cannot read from stdin", 1)
 	}
 
-	return stdin
+	return content
 }
 
-func file_input() []byte {
+func fileInput() []byte {
 	fileInfo, err := os.Stat(opts.inFile)
 
 	if err != nil {

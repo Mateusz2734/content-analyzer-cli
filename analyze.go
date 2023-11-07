@@ -26,7 +26,7 @@ func cmpWords(a Word, b Word) int {
 
 // remove_chars takes in a byte slice and removes any characters that are not
 // alphanumeric or whitespace, returning the resulting string.
-func remove_chars(input []byte) string {
+func removeChars(input []byte) string {
 	builder := &strings.Builder{}
 	builder.Grow(len(input))
 
@@ -46,7 +46,7 @@ func analyze(input []byte) ([]int, []Word) {
 	letterCnt := make([]int, 26)
 	wordIds := make(map[string]int)
 
-	str := strings.ToLower(remove_chars(input))
+	str := strings.ToLower(removeChars(input))
 	words := strings.Split(strings.ReplaceAll(str, "\n", " "), " ")
 
 	wordsArr := make([]Word, 0, len(words))
