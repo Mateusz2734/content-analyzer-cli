@@ -19,7 +19,7 @@ func (obj *LetterCount) calcSum() {
 	}
 }
 
-func (obj *LetterCount) print(builder *strings.Builder) {
+func (obj *LetterCount) print(builder *strings.Builder, opts *Options) {
 	if opts.letterPercentage {
 		obj.calcSum()
 
@@ -38,7 +38,7 @@ func (obj *LetterCount) print(builder *strings.Builder) {
 	builder.WriteString("\n")
 }
 
-func (obj *LetterCount) prettyPrint(builder *strings.Builder) {
+func (obj *LetterCount) prettyPrint(builder *strings.Builder, opts *Options) {
 	var tableData [][]string
 
 	if opts.letterPercentage {
@@ -76,10 +76,10 @@ func (obj *LetterCount) prettyPrint(builder *strings.Builder) {
 	builder.WriteString("\n")
 }
 
-func (obj *LetterCount) render(builder *strings.Builder) {
+func (obj *LetterCount) render(builder *strings.Builder, opts *Options) {
 	if opts.prettyPrint {
-		obj.prettyPrint(builder)
+		obj.prettyPrint(builder, opts)
 	} else {
-		obj.print(builder)
+		obj.print(builder, opts)
 	}
 }

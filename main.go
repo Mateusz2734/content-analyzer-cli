@@ -7,9 +7,8 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var opts = &Options{}
-
 func main() {
+	opts := &Options{}
 
 	app := &cli.App{
 		Name:      "ca",
@@ -19,14 +18,14 @@ func main() {
 		Version:   "1.0.0",
 
 		Flags: []cli.Flag{
-			nFlag,
-			prettyFlag,
-			inFileFlag,
-			outFileFlag,
-			percentageFlag,
+			nFlag(opts),
+			prettyFlag(opts),
+			inFileFlag(opts),
+			outFileFlag(opts),
+			percentageFlag(opts),
 		},
 
-		Action: mainAction,
+		Action: mainAction(opts),
 	}
 
 	if err := app.Run(os.Args); err != nil {

@@ -42,7 +42,7 @@ func removeChars(input []byte) string {
 
 // analyze takes in an input byte array, counts the occurrences of each letter in the
 // input, and returns the letter count as well as a sorted list of words and their frequencies.
-func analyze(input []byte) ([]int, []Word) {
+func analyze(input []byte, opts *Options) ([]int, []Word) {
 	letterCnt := make([]int, 26)
 	wordIds := make(map[string]int)
 

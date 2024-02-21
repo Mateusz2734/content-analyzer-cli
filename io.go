@@ -8,11 +8,11 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func output(content string) {
+func output(content string, opts *Options) {
 	if opts.outFile == "" {
 		stdinOutput(content)
 	} else {
-		fileOutput(content)
+		fileOutput(content, opts)
 	}
 }
 
@@ -20,7 +20,7 @@ func stdinOutput(content string) {
 	fmt.Print(content)
 }
 
-func fileOutput(content string) {
+func fileOutput(content string, opts *Options) {
 	f, err := os.OpenFile(opts.outFile, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0666)
 
 	if err != nil {
@@ -38,11 +38,11 @@ func fileOutput(content string) {
 	}
 }
 
-func input() []byte {
+func input(opts *Options) []byte {
 	if opts.inFile == "" {
 		return stdinInput()
 	} else {
-		return fileInput()
+		return fileInput(opts)
 	}
 }
 
@@ -56,7 +56,7 @@ func stdinInput() []byte {
 	return content
 }
 
-func fileInput() []byte {
+func fileInput(opts *Options) []byte {
 	fileInfo, err := os.Stat(opts.inFile)
 
 	if err != nil {

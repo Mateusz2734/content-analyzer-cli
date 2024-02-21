@@ -8,24 +8,26 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func mainAction(cCtx *cli.Context) error {
-	sb := &strings.Builder{}
+func mainAction(opts *Options) func(c *cli.Context) error {
+	return func(cCtx *cli.Context) error {
+		sb := &strings.Builder{}
 
-	letterCounter := &LetterCount{}
-	wordFreq := &WordFrequency{}
+		letterCounter := &LetterCount{}
+		wordFreq := &WordFrequency{}
 
-	if termutil.Isatty(os.Stdin.Fd()) && opts.inFile == "" {
-		return cli.Exit("Usage: ca [global options]\nTry 'ca -h' for more information.", 0)
+		if termutil.Isatty(os.Stdin.Fd()) && opts.inFile == "" {
+			return cli.Exit("Usage: ca [global options]\nTry 'ca -h' for more information.", 0)
+		}
+
+		data := input(opts)
+
+		letterCounter.data, wordFreq.data = analyze(data, opts)
+
+		letterCounter.render(sb, opts)
+		wordFreq.render(sb, opts)
+
+		output(sb.String(), opts)
+
+		return nil
 	}
-
-	data := input()
-
-	letterCounter.data, wordFreq.data = analyze(data)
-
-	letterCounter.render(sb)
-	wordFreq.render(sb)
-
-	output(sb.String())
-
-	return nil
 }

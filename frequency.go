@@ -32,7 +32,7 @@ func (obj *WordFrequency) prettyPrint(builder *strings.Builder) {
 	table.Render()
 }
 
-func (obj *WordFrequency) render(builder *strings.Builder) {
+func (obj *WordFrequency) render(builder *strings.Builder, opts *Options) {
 	if opts.prettyPrint {
 		obj.prettyPrint(builder)
 	} else {
